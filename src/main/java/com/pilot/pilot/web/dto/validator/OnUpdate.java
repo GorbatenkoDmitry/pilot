@@ -1,4 +1,4 @@
 package com.pilot.pilot.web.dto.validator;
 
-public interface Onupdate {
+public interface OnUpdate {
 }
