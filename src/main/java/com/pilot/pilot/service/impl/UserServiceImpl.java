@@ -2,6 +2,9 @@ package com.pilot.pilot.service.impl;
 
 import com.pilot.pilot.domain.user.User;
 import com.pilot.pilot.service.UserService;
+import org.springframework.stereotype.Service;
+
+@Service
 
 public class UserServiceImpl implements UserService{
     @Override

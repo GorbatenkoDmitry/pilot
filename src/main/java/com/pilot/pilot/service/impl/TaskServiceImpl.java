@@ -2,8 +2,10 @@ package com.pilot.pilot.service.impl;
 
 import com.pilot.pilot.domain.task.Task;
 import com.pilot.pilot.service.TaskService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+@Service
 
 public class TaskServiceImpl implements TaskService {
 
@@ -23,7 +25,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task create(Task task) {
+    public Task create(Task task, Long id) {
         return null;
     }
 
