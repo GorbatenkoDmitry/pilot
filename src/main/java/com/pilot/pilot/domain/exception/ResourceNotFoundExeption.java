@@ -1,4 +1,4 @@
-package com.pilot.pilot.domain.exeption;
+package com.pilot.pilot.domain.exception;
 
 public class ResourceNotFoundExeption extends RuntimeException{
 

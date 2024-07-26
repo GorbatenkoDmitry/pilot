@@ -1,5 +1,7 @@
 package com.pilot.pilot.config;
 
+import com.pilot.pilot.web.security.JwtTokenFilter;
+import com.pilot.pilot.web.security.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.mapstruct.BeanMapping;
@@ -38,7 +40,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class ApplicationConfig {
     //создаем переменную типа  ApplicationContext, раз файнал при создании экземпляра ApplicationConfig
     // Она должна быть проинициализирована
-
+private final JwtTokenProvider tokenProvider;
     private final ApplicationContext applicationContext;
 
     //Начнем с определения простого BCryptPasswordEncoder как компонента в нашей конфигурации:

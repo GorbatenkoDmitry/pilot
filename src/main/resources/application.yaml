@@ -26,4 +26,10 @@ spring:
 # что бы не было ошибки заккоментируем путь к вставке данных
 # data-locations: classpath:demo_data.sql
 
+security:
+  jwt:
+    secret: ZGZhc3Zkdmxkam5oa2pmaGZkc2todmloYm9pZGZodm9pZmR2b2l1ZmhvaWRmdWhmaW9oZnVpb2Zodm9pTEZKSE9JRlVIDQo=
+    access: 1
+    refresh: 30
+
 
