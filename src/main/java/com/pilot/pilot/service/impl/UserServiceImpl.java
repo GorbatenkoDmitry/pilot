@@ -1,12 +1,12 @@
 package com.pilot.pilot.service.impl;
 
-import com.example.tasklist.domain.MailType;
-import com.example.tasklist.domain.exception.ResourceNotFoundException;
-import com.example.tasklist.domain.user.Role;
-import com.example.tasklist.domain.user.User;
-import com.example.tasklist.repository.UserRepository;
-import com.example.tasklist.service.MailService;
-import com.example.tasklist.service.UserService;
+import com.pilot.pilot.domain.MailType;
+import com.pilot.pilot.domain.exception.ResourceNotFoundException;
+import com.pilot.pilot.domain.user.Role;
+import com.pilot.pilot.domain.user.User;
+import com.pilot.pilot.repository.UserRepository;
+import com.pilot.pilot.service.MailService;
+import com.pilot.pilot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -35,8 +35,8 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 // ну и тут мы добовляем маил сервис 
     private final MailService mailService;
-    далле имплементированные сервисы из интерфейса юзер сервис мы переопределяаем
-Что делает Spring Cache? Spring Cache просто кэширует возвращаемый результат для определённых входных параметров
+  //  далле имплементированные сервисы из интерфейса юзер сервис мы переопределяаем
+//то делает Spring Cache? Spring Cache просто кэширует возвращаемый результат для определённых входных параметров
     @Override
     @Cacheable(
             value = "UserService::getById",
@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
         //и так же с паролем
         user.setUsername(user.getUsername());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        а затем передаем репозиторию методу сейв
+      //  а затем передаем репозиторию методу сейв
         userRepository.save(user);
         return user;
     }
