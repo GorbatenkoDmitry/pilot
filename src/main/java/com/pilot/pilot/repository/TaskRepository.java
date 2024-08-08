@@ -8,7 +8,7 @@ import java.util.Optional; // Класс оптинал это обертка в
 public interface TaskRepository {
 
     Optional<Task> findById(Long id);
-    List<Task> findAllByUserId();
+    List<Task> findAllByUserId(Long id);
     void assignToUserById(Long taskId, Long userId);//метод связывает задачу и пользователя.
     void update(Task task);
     void create(Task task);
