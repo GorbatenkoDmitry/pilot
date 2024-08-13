@@ -20,7 +20,7 @@ import java.util.Optional;
 public class UserRepositoryImpl implements UserRepository {
 
     private final DataSourceConfig dataSourceConfig;
-
+//-- t синоним таблицы tblname в данном случае u users
     private final String FIND_BY_ID = """
             SELECT u.id as user_id,
                    u.name as user_name,

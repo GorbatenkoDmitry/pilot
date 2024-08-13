@@ -24,6 +24,7 @@ public class TaskRepositoryImpl implements TaskRepository {
 //создали переменную
     private final DataSourceConfig dataSourceConfig;
 //создали константы с запросами на подключение
+    //-- t синоним таблицы tblname
     private final String FIND_BY_ID = """
             SELECT t.id              as task_id,
                    t.title           as task_title,
