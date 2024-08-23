@@ -25,6 +25,10 @@ spring:
       continue-on-error: false
 # что бы не было ошибки заккоментируем путь к вставке данных
 # data-locations: classpath:demo_data.sql
+#далее приступаем к настройке майбатис и что мы делаем- это мы устанавливааем путь к намим мэпперам, которые у нас 
+#будут в xml
+mybatis:
+mapper-locations: classpath: mybatis/mappers/*.xml
 
 security:
   jwt:
