@@ -26,6 +26,7 @@
 		<jakarta.validation-api.version>3.1.0</jakarta.validation-api.version>
 		<spring-boot-starter-security>3.0.2</spring-boot-starter-security>
 		<jjwt.version>0.12.6</jjwt.version>
+		<mybatis.version>3.0.3</mybatis.version>
 
 	</properties>
 
@@ -57,6 +58,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
  		</dependency>
+                <dependency>
+                   <groupId>org.mybatis.spring.boot</groupId>
+                   <artifactId>mybatis-spring-boot-starter</artifactId>
+                    <version>${mybatis.version}</version>
+               </dependency>
+
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
