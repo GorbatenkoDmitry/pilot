@@ -10,13 +10,21 @@
         <result property="name" column="user_name"/>
         <result property="username" column="user_username"/>
         <result property="password" column="user_password"/>
+            ///теперь нам надо засетать коллекцию ролей и тасков
+            ///для этого у майбатис есть тег коллектион и ассотиатион, которые позыоляют делать свзяь оин ко многим один ко одному
+            ///асоциатион мы бы использовали егсли бы у нас была связь один к одному и в таске ыбла бы ссылка на юзера и было бы поле юзер
+            ///но у нас коолекция, так как в юзер сет ролей и лист тасков и поэтому используем коллектион
+            /// в коллектион проперти указываем название поля ролес
         <collection property="roles"
+                ///указываем тип 
                     ofType="com.example.tasklist.domain.user.Role"
                     autoMapping="false">
+                ///мы пытаемся смаппить енум, у него единственное поле нейм и мы ему назначаем колонку юзер роле роле
             <result property="name" column="user_role_role"/>
         </collection>
         <collection property="tasks"
                     ofType="com.example.tasklist.domain.task.Task"
+                ///здесь отличие потому что мы не будем описывать все поля таски,а просто сошлемся на нее через резулт мэп
                     resultMap="com.example.tasklist.repository.TaskRepository.TaskResultMap"
                     autoMapping="false"/>
     </resultMap>
