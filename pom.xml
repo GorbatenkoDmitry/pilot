@@ -27,7 +27,7 @@
 		<spring-boot-starter-security>3.0.2</spring-boot-starter-security>
 		<jjwt.version>0.12.6</jjwt.version>
 		<mybatis.version>3.0.3</mybatis.version>
-
+		<liquibase.version>4.29.1</liquibase.version>
 	</properties>
 
 	<dependencies>
@@ -67,7 +67,7 @@
 		<dependency>
 			<groupId>org.liquibase</groupId>
 			<artifactId>liquibase-core</artifactId>
-			<version>4.29.1</version>
+			<version>${liquibase.version}</version>
 		</dependency>
 		
 		<dependency>
