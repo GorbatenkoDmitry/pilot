@@ -1,12 +1,21 @@
 
 <?xml version="1.0" encoding="UTF-8" ?>
+///вставили дроктайп для мэппера взяв его с сайта майбатиса
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+///Теперь же нам надо описать сам маппер
+///Открываем тег маппер и для маппера указываем его нейм спейс(ссылка на тот интерфейс репозитория, который мы маппим 
 <mapper namespace="com.example.tasklist.repository.TaskRepository">
-
+///Теперь напишем резултмэп 
+        ///это такой тэг,которыйпозволяет строки перерводить в объекты
+        ///айди отражает название данного резулт мэп , а тип указываем наш тип объекта таск и автомэппинг фолс для избежаения определенных ошибок(когда у нас все поля мэппятся)
+        
     <resultMap id="TaskResultMap" type="com.example.tasklist.domain.task.Task" autoMapping="false">
+
+            ///теперь вручную прописываем как связываются колонки в таблцие в селектах и как уже в самом объекте .
+            ///связыаем колонку айди и поле таск айди
+            ///*не забываем, что в юзер репозитории импл мы использовали так называемые алиасы (Псевдоним (alias)), поэтому не просто айди,  а таск айди так далее
         <id property="id" column="task_id"/>
         <result property="title" column="task_title"/>
         <result property="description" column="task_description"/>
