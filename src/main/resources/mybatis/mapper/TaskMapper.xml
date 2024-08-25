@@ -22,7 +22,8 @@
         <result property="expirationDate" column="task_expiration_date"/>
         <result property="status" column="task_status"/>
     </resultMap>
-
+///теперь опишем все необходимые селекты, так как раз мы делаем все через майбатис и реализация интерфейс не нужна
+        ///айди должен соответсвовать названию метода в интерфейсе таск интерейс
     <select id="findById" resultMap="TaskResultMap">
         SELECT t.id as task_id,
         t.title as task_title,
@@ -30,6 +31,7 @@
         t.expiration_date as task_expiration_date,
         t.status as task_status
         FROM tasks t
+            ///исключение и отличие от таск интерфейс импл то что здесь вместо вопросика для доступа к переданным параметрам нужно написать решетку и параметр
         WHERE t.id = #{id}
     </select>
 
@@ -43,7 +45,9 @@
         JOIN users_tasks ut on t.id = ut.task_id
         WHERE ut.user_id = #{userId}
     </select>
-
+///тут уже метод не селект, а инсерт,то есть метод который будет вносить данные , нужно так же указать кей проперти, который является ключом в бд
+        /// и кей колумн, который является ключом в объекте
+        //если мы хотим что бы вставилось айди при вставке в бд, то надо использовать юсгенерейтедкейс (все будет ниже)
     <insert id="assignToUserById">
         INSERT INTO users_tasks (task_id, user_id)
         VALUES (#{taskId}, #{userId})
@@ -57,7 +61,9 @@
         status = #{status}
         WHERE id = #{id}
     </update>
-
+///тут уже метод не селект, а инсерт,то есть метод который будет вносить данные , нужно так же указать кей проперти, который является ключом в бд
+        /// и кей колумн, который является ключом в объекте
+        //если мы хотим что бы вставилось айди при вставке в бд, то надо использовать юсгенерейтедкейс
 
     <insert id="create" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
         INSERT INTO tasks (title, description, expiration_date, status)
