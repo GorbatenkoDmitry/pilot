@@ -34,6 +34,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 //  который мы можем просто заинжектить в своем коде
 // или из Configuration  @EnableWebSecurity.Последний маркирует Spring Security и таким образом можно
 // определить конфигурацию Spring Security
+//Она вбирает в себя и хорошо известную аннотацию @Configuration и @EnableGlobalAuthentication
+//(помечает, что класс может быть использован для построения экземпляра AuthenticationManagerBuilder - строитель того, что используют фильтры, о которых идёт здесь речь).
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -50,7 +52,7 @@ private final JwtTokenProvider tokenProvider;
     }
 
     //AuthenticationManager выполняет аутентификацию LDAP с использованием аутентификации привязки:
-
+//Мы используем свой authenticationManager, чтобы настроить успешную аутентификацию для одного пользователя с жестко определённым логином и паролем (для тестового примера этого будет достаточно). Выглядит это так:
 @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
         return configuration.getAuthenticationManager();
@@ -61,6 +63,11 @@ private final JwtTokenProvider tokenProvider;
 // с помощью #requestMatcher(RequestMatcher)или другими похожими методами.
     //поэтому создаем бин, который принимает HttpSecurity
 
+//Сначала нам нужно отключить конфигурацию Spring Security по умолчанию от Spring Boot. Для этого достаточно просто объявить бин securityFilterChain:
+    Здесь мы просто отключили CSRF (для production лучше включить и настроить, скорее всего), в тестовом примере он нам будет только мешать.
+//Внутри этого метода мы должны сконфигурировать SecurityFilterChain на основе HttpSecurity, используя его методы authorizeHttpRequests:
+    //С помощью методов authorizeHttpRequests мы настраиваем различные доступы к URL. Например, 
+    //к /rest/v1/login разрешены все запросы ( permitAll), а к всем остальным URL внутри /rest будут иметь только пользователи с ролью ROLE_USER ( hasRole("USER")).
 
     @Bean
     @SneakyThrows
@@ -68,14 +75,13 @@ private final JwtTokenProvider tokenProvider;
             final HttpSecurity httpSecurity
     ) {
         httpSecurity
+            //это стандартные фильтры Если все эти фильтры выключить, то все ресурсы будут доступны для всех запросов. Ну т.е. проверки можно сказать теперь нет.
+            ///Сross Site Request Forgery) в переводе на русский — это подделка межсайтовых запросов.
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement ->
-                        sessionManagement
-                                .sessionCreationPolicy(
-                                        SessionCreationPolicy.STATELESS
-                                )
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .exceptionHandling(configurer ->
                         configurer.authenticationEntryPoint(
@@ -96,17 +102,20 @@ private final JwtTokenProvider tokenProvider;
                                             response.getWriter()
                                                     .write("Unauthorized.");
                                         }))
+            ///авторизованный хттп запрос
                 .authorizeHttpRequests(configurer ->
                         configurer.requestMatchers("/api/v1/auth/**")
                                 .permitAll()
+                                       //таким образом мы говорим что бы за сваггером любая тсраница была доступна
                                 .requestMatchers("/swagger-ui/**")
                                 .permitAll()
                                 .requestMatchers("/v3/api-docs/**")
                                 .permitAll()
                                 .requestMatchers("/graphiql")
                                 .permitAll()
-                                .anyRequest().authenticated())
+                                .anyRequest().authenticated()) ///производьный и другой запрос через authenticated
                 .anonymous(AbstractHttpConfigurer::disable)
+            //доболвяем фильтр перед 
                 .addFilterBefore(new JwtTokenFilter(tokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
 
