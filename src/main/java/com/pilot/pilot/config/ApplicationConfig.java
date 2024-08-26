@@ -64,7 +64,7 @@ private final JwtTokenProvider tokenProvider;
     //поэтому создаем бин, который принимает HttpSecurity
 
 //Сначала нам нужно отключить конфигурацию Spring Security по умолчанию от Spring Boot. Для этого достаточно просто объявить бин securityFilterChain:
-    Здесь мы просто отключили CSRF (для production лучше включить и настроить, скорее всего), в тестовом примере он нам будет только мешать.
+ //   Здесь мы просто отключили CSRF (для production лучше включить и настроить, скорее всего), в тестовом примере он нам будет только мешать.
 //Внутри этого метода мы должны сконфигурировать SecurityFilterChain на основе HttpSecurity, используя его методы authorizeHttpRequests:
     //С помощью методов authorizeHttpRequests мы настраиваем различные доступы к URL. Например, 
     //к /rest/v1/login разрешены все запросы ( permitAll), а к всем остальным URL внутри /rest будут иметь только пользователи с ролью ROLE_USER ( hasRole("USER")).
