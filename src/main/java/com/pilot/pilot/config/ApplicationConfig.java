@@ -67,16 +67,18 @@ private final JwtTokenProvider tokenProvider;
 //Внутри этого метода мы должны сконфигурировать SecurityFilterChain на основе HttpSecurity, используя его методы authorizeHttpRequests:
     //С помощью методов authorizeHttpRequests мы настраиваем различные доступы к URL. Например, 
     //к /rest/v1/login разрешены все запросы ( permitAll), а к всем остальным URL внутри /rest будут иметь только пользователи с ролью ROLE_USER ( hasRole("USER")).
-
+//По факту после подключения спринг секьюрити у нас стоит единственный фильтр по умолчанию ( в него с помощью метода  InMemoryUserDeteilsManeger можно в ручную передать объекты юзера с паролями и логинами, но это не удобно и статично) и он запрещает 
+    //доступ к любому контенту, короче это реализация для школы.
+    //что бы сделать свой фильр в спринг секьюрити есть спринг секьюрити фильтр чейн
+    //этот метод будет принимать в себя класс HttpSecurity, который позволяет конфигирироваь аунтификацию и аворизацию 
     @Bean
     @SneakyThrows
     public SecurityFilterChain filterChain(
             final HttpSecurity httpSecurity
     ) {
-        httpSecurity
-            //это стандартные фильтры Если все эти фильтры выключить, то все ресурсы будут доступны для всех запросов. Ну т.е. проверки можно сказать теперь нет.
-            ///Сross Site Request Forgery) в переводе на русский — это подделка межсайтовых запросов.
-                .csrf(AbstractHttpConfigurer::disable)
+        //первое что отключим в этом классе это защиту от csrf атак. Вкратце такие атаки позволяют красть атаки за счет  смены маила, повышать привелегии, приводить код в исполнение и многое другое, но с версии спринг секьюрити 4 к ответу автоматически
+        //доболвяется ссрф токен, который проверяет не случилось ли подмены пользователя.
+        httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement ->
@@ -101,23 +103,30 @@ private final JwtTokenProvider tokenProvider;
                                             response.getWriter()
                                                     .write("Unauthorized.");
                                         }))
-            ///авторизованный хттп запрос
+            ///здесь моделируем нашу защщиту на уровне запроса  
+            //назовем как то элемент например configurer и у этого элемента вызовем requestMatchers. За аргумент он принимает строку содержащую юрл, например хочу что бы ("/api/v1/auth/**") была доступна всем. Две звездочки допускают любые пути после шаблона
+            //указываю ее
                 .authorizeHttpRequests(configurer ->
                         configurer.requestMatchers("/api/v1/auth/**")
+                                       // а далее добовляют permitAll таким образом мы говорим что бы за сваггером любая тсраница была доступна
                                 .permitAll()
-                                       //таким образом мы говорим что бы за сваггером любая тсраница была доступна
+                                       
                                 .requestMatchers("/swagger-ui/**")
                                 .permitAll()
+                                       
                                 .requestMatchers("/v3/api-docs/**")
                                 .permitAll()
+                                       
                                 .requestMatchers("/graphiql")
                                 .permitAll()
-                                .anyRequest().authenticated()) ///производьный и другой запрос через authenticated
+                                       //остальные запросы все через аунтификацию
+                                .anyRequest().authenticated()) 
+            //анонимным пользователям доступ закрыть 
                 .anonymous(AbstractHttpConfigurer::disable)
             //доболвяем фильтр перед 
                 .addFilterBefore(new JwtTokenFilter(tokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
-
+//теперь все строим
         return httpSecurity.build();
     }
 
