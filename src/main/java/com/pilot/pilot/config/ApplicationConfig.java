@@ -32,10 +32,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 //  если сконфигурить параметры OAuth в application.properties,
 //  то Spring Security предоставит бин OAuth2RestTemplate
 //  который мы можем просто заинжектить в своем коде
-// или из Configuration  @EnableWebSecurity.Последний маркирует Spring Security и таким образом можно
-// определить конфигурацию Spring Security
-//Она вбирает в себя и хорошо известную аннотацию @Configuration и @EnableGlobalAuthentication
-//(помечает, что класс может быть использован для построения экземпляра AuthenticationManagerBuilder - строитель того, что используют фильтры, о которых идёт здесь речь).
+// Configuration и  @EnableWebSecurity вместе используются для настройки WebSecurity 
+//Один @EnableWebSecurity  говорит что данный класс применяется для глобальной безопасности приложения.
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
