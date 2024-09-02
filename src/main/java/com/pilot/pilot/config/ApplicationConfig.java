@@ -126,3 +126,9 @@ private final JwtTokenProvider tokenProvider;
     }
 
 }
+
+//Так же если надо повесить на конечные точки доступ к пользователям с определенными правами  на них надо добавить PreAuthorize
+//С помощью ее мы описываем правила доступа к данной точке
+//@PreAuthorize ("hasAuthority('ROLE_ADMIN') && hasAuthority('ROLE_USER')")
+//Тем самым мы добавили проверяем  например 2 авторитета пользователя роль админа и юзера
+// и так же добавить @EnableMethodSecurity
