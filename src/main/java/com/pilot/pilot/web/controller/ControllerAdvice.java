@@ -76,13 +76,24 @@ public class ControllerAdvice {
 
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    //Даннный класс у нас ответчает за формирование текста в консоле по ошибке тела я так думиаю запроса на валидацию
     public ExceptionBody handleConstraintViolation(
+        //в аргумент принимает ConstraintViolationException и записываает ее в е 
             final ConstraintViolationException e
     ) {
+        //Далее мы создали объект ошибкаи  и передали в аргмуент  текст Validation failed
         ExceptionBody exceptionBody = new ExceptionBody("Validation failed.");
-        exceptionBody.setErrors(e.getConstraintViolations().stream()
+        //туда же пишем (передаем) все ошибки с помощью setErrors и в аргумент передаем из e полученные с помощью getConstraintViolations() ошибки. Далее создаем из этих данных поток с помощью stream()
+        //Теперь с данным в потоке мы можем вертеть крутить с помощью методов потока.
+    //с помощью конвеерных методов можем сортировать, фильтровать, сравнивать данные, но данные оставются в потоке и что вы вернуть данные в понятном состоянии и сделать лист, нам нужны терминальные методы
+        exceptionBody.setErrors(e.getConstraintViolations().stream()//важно что без точки с запятой
+                                //терминальныей метод его применяем к результату внутри
+                                //метод collect(). Он используется для того, чтобы перейти от потоков к привычным коллекциям — List<T>, Set<T>, Map<T, R> 
+                               // toMap() Объект, который преобразует поток в мэп — Map<K, V>
                 .collect(Collectors.toMap(
+                    ///violation произвольное название элементов внутри, сами пишем. и применяем методы getPropertyPath(). дать путь место ошибки и все это в строке подать toString(),
                         violation -> violation.getPropertyPath().toString(),
+                    //забираем сообщение в ошибке 
                         ConstraintViolation::getMessage
                 )));
         return exceptionBody;
