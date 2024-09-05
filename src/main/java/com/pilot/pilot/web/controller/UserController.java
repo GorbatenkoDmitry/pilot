@@ -28,7 +28,13 @@ public class UserController {
 
     private final UserMapper userMapper;
     private final TaskMapper taskMapper;
-@PutMapping
+ @PutMapping
+    @MutationMapping(name = "updateUser")
+    @Operation(summary = "Update user")
+    /// @PreAuthorize("@cse.canAccessUser(#dto.id)") является так называемым security expression (такие выражения), которые вешаются в контроллерах и в них передается секьюрити выражение
+    //с поомщью которого можно проверять пользователя и параметры которые сюда приходят
+    //то есть в том числе проверка авторизованного ползователя
+    @PreAuthorize("@cse.canAccessUser(#dto.id)")
     public UserDto update(@Validated(OnUpdate.class) @RequestBody UserDto dto){
 
     User user = userMapper.toEntity(dto);
